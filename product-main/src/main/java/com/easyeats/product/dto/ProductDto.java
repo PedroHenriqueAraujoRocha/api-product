@@ -41,7 +41,7 @@ public class ProductDto {
     @Schema(description = "Preço do produto", example = "3500.0", requiredMode = Schema.RequiredMode.REQUIRED)
     private Float preco;
 
-    @Schema(description = "Status do produto. Se não for informado, assume ACTIVE", example = "ACTIVE")
+    @Schema(description = "Status do produto. Se não for informado, assume ATIVO", example = "ATIVO")
     private ProductStatus status;
 
     @Schema(description = "Data de criação do produto", accessMode = Schema.AccessMode.READ_ONLY)

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.easyeats.product.dto.ProductDto;
@@ -48,13 +49,14 @@ public class ProductController {
     @GetMapping
     @Operation(
         summary = "Listar produtos",
-        description = "Retorna a lista de todos os produtos cadastrados",
+        description = "Retorna a lista de produtos cadastrados. Use categoriaId para filtrar por categoria",
         responses = {
             @ApiResponse(responseCode = "200", description = "Lista de produtos retornada com sucesso")
         }
     )
-    public ResponseEntity<List<ProductDto>> findAll() {
-        return ResponseEntity.ok(productService.findAll());
+    public ResponseEntity<List<ProductDto>> findAll(
+            @RequestParam(required = false) Long categoriaId) {
+        return ResponseEntity.ok(productService.findAll(categoriaId));
     }
 
     @GetMapping("/{id}")
@@ -72,14 +74,14 @@ public class ProductController {
 
     @GetMapping("/identifier/{productIdentifier}")
     @Operation(
-        summary = "Buscar produto por identificador",
-        description = "Retorna os dados de um produto através do seu identificador funcional",
+        summary = "Buscar produtos por plano",
+        description = "Retorna os produtos de um plano (BASIC, PLUS ou PREMIUM), um por categoria",
         responses = {
             @ApiResponse(responseCode = "200", description = "Produto encontrado"),
             @ApiResponse(responseCode = "404", description = "Produto não encontrado")
         }
     )
-    public ResponseEntity<ProductDto> findByProductIdentifier(
+    public ResponseEntity<List<ProductDto>> findByProductIdentifier(
             @PathVariable String productIdentifier) {
         return ResponseEntity.ok(
                 productService.findByProductIdentifier(productIdentifier));
